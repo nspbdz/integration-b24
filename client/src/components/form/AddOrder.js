@@ -52,7 +52,7 @@ function AddOrder(props) {
         checkout: formData.checkout,
         user_id: userId,
         houseId: urlVal,
-        // status: "pending",
+        status: "pending",
      
       }),
     })

@@ -15,24 +15,13 @@ const DetailProperty = () => {
   const [dataLength, setDataLength] = useState(null);
   const [loading, setLoading] = useState(true);
   const contextValue = useContext(UserContext);
+console.log(contextValue[0])
+
   const userId=contextValue[0].user.id;
+  const dataUser=contextValue[0];
 console.log(userId)
 var lengt;
-  // const getProduct = async () => {
-  //   const response = await API.get(`/transaction?user_id=${userId}`);
-  //   console.log(response);
-  //   console.log(response.data.data.length);
-  //   setDataLength(response.data.data.length)
-  //   // (response.data.data);
-  //   setData(response.data.data);
-  //   setLoading(false);  
-  // };
-  // useEffect(() => {
-  //   getProduct();
-  //   return () => {
-  //     setData(null);
-  //   };
-  // }, []);
+  
 
   const { isLoading, data, error } = useQuery("products", async () => {
   // /  const response = await API.get("/products");
@@ -77,79 +66,157 @@ console.log(data)
     <div>
     {/* {data.filter(item => item.id ==urlVal).map(dataMatch => ( */}
       
-<>
+      <>
+<Row className="justify-content-md-center" style={{paddingTop:"73px"}}>
+<Col xs lg="2">
+  
+</Col>
+<Col md="auto">
+<Row>
+<Card style={{ width: '1035px',height:"419px"  }}>
+<ListGroup variant="flush">
+  <ListGroup.Item>
+  <Row>
+  <Col sm={4}>
+  <img src={brand} alt="brand" />
 
-                        <Row className="justify-content-md-center" style={{paddingTop:"73px"}}>
-                        <Col xs lg="2">
-                          1 of 3
-                        </Col>
-                        <Col md="auto">
-                        <Row>
-                        <Card style={{ width: '1035px',height:"419px"  }}>
-                        <ListGroup variant="flush">
-                          <ListGroup.Item>
-                          <Row>
-                          <Col sm={4}>
-                          <img src={brand} alt="brand" />
-                          </Col>
-                          <Col sm={4}>
-                            
-                          </Col>
-                          <Col sm={4}>
-                            <h4>Booking</h4>
-                            {/* <p>{Nowss} </p> */}
-                          </Col>
-                          </Row>
-
-                          </ListGroup.Item>
-                          <ListGroup.Item>
-                          <Row>
-                          <Col sm>
-                          <h4>{item.house.name}</h4>
-                        <p>{item.house.address}</p>
-                        <Button variant="secondary">Waiting Payment</Button>
-                          </Col>
-                          <Col sm>
-                          <Row>
-                            <Col sm>sm=true</Col>
-                            <Col sm>sm=true</Col>
-                            <Col sm>
-                              <h4>Amenities</h4>
-                              
-                            </Col>
-                          </Row>
-                          </Col>
-                          <Col sm>
-                            
-                          </Col>
-                        </Row>
-                          
-                          </ListGroup.Item>
-                          <ListGroup.Item>Vestibulum at eros</ListGroup.Item>
-                        </ListGroup>
-                      </Card>
-                          <Col sm={4}>
-
-                          </Col>
-                          <Col sm={4}>
-                            
-                          </Col>
-                          <Col sm={4}>
-                            
-                          </Col>
-                        </Row>
-                        
-                        </Col>
-                        <Col xs lg="2">
-                          3 of 3
-                        </Col>
-                      </Row>
-
-
+  </Col>
+  <Col sm={3}>
     
-</>
+  </Col>
+  <Col sm={5}>
+    <h4>Booking</h4>
+    {/* <p>{Nowss} </p> */}
+  </Col>
+  </Row>
 
-            
+  </ListGroup.Item>
+  <ListGroup.Item>
+  <Row>
+  <Col sm>
+  <h4>{item.house.name}</h4>
+<p>{item.house.address}</p>
+<Button variant="secondary">Waiting Payment</Button>
+  </Col>
+  <Col sm>
+  <Row>
+    <Col sm>status</Col>
+    <Col sm>
+      <p>Check-In</p>
+
+    <p>{item.checkin} </p>
+    <br></br>
+    <p>Check-Out</p>
+    <p>{item.checkout} </p>
+    
+    </Col>
+  
+  </Row>
+  </Col>
+  <Col sm>
+      <h5>Amenities</h5>
+    <p>{item.house.amenities} </p>
+    <h5>Type Of Rent</h5>
+    <p>{item.house.typeRent} </p>
+    </Col>
+  <Col sm>
+    <img style={{width:"138px"}} src="https://i1.wp.com/investasisyariah.info/wp-content/uploads/2018/02/Struk-Pembelian.jpg?resize=450%2C450&ssl=1" />
+  <p>Upload Payment Proof</p>
+  </Col>
+</Row>
+  
+  <ListGroup>
+  <Row>
+  <Col sm="4">
+  <Row>
+  <Col sm="4">
+   
+  <h5>No</h5>
+    
+  </Col>
+  <Col sm="4"><h5>Full Name</h5></Col>
+  <Col sm="4"><h5>Gender</h5></Col>
+</Row>
+  </Col>
+  <Col sm="4"><h5>Phone/Email</h5></Col>
+  <Col sm="4">
+
+  </Col>
+</Row>
+  </ListGroup>
+  </ListGroup.Item>
+  <ListGroup.Item>
+  {/* <Row>
+  <Col sm={4}> */}
+
+      {/* {userData.filter(item => item.username ==userval).map((items,index) => {
+  console.log(userData)
+  return(
+    <> */}
+
+  <Row>
+  <Col sm={4}>
+  <Row>
+  <Col sm={4}>1 </Col>
+  <Col sm={4}>{dataUser.user.fullname} </Col>
+  <Col sm={4}>{dataUser.user.gender} </Col>
+</Row>
+ </Col>
+ <Col sm={4}>{dataUser.user.email} </Col>
+  <Col sm={2}>
+  <p>Long Time Rent :</p>
+  </Col>
+  <Col sm={2}>
+  <p>1 Year </p>
+  </Col>
+</Row>
+{/* </> */}
+
+{/* )
+})} */}
+
+  <ListGroup.Item>
+    <Row>
+  <Col sm={4}> </Col>
+  <Col sm={4}> </Col>
+  <Col sm={2}>Total : </Col>
+  <Col sm={2}>Rp. {item.house.price} </Col>
+</Row>
+
+  </ListGroup.Item>
+  <ListGroup.Item>
+    <Row>
+  <Col sm={4}> </Col>
+  <Col sm={4}> </Col>
+  <Col sm={4}>
+
+  {/* <Link to={{
+
+    pathname: `/MyBookingPending/${userval}/${bookval}/${bookval}`
+  }} > */}
+  <Button variant="primary" style={{width:"150px"}}>
+
+    Pay
+  </Button>
+  {/* </Link> */}
+     </Col>
+</Row>
+
+  </ListGroup.Item>
+  </ListGroup.Item>
+</ListGroup>
+</Card>
+  <Col sm={4}></Col>
+  <Col sm={4}> </Col>
+  <Col sm={4}> </Col>
+</Row>
+</Col>
+<Col xs lg="2">
+  
+</Col>
+</Row>
+</>
+   
 
         
       

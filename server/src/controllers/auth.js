@@ -119,7 +119,7 @@ exports.signin = async (req, res) => {
             status: 'success',
             data: {
                 id: checkEmail.id,
-                
+                gender: checkEmail.gender,
                 fullname: checkEmail.fullname,
                 email: checkEmail.email,
                 token,
