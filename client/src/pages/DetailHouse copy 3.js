@@ -55,7 +55,6 @@ function AddProduct(props) {
   }
 
   return (
-    
     <form onSubmit={handleSubmit}>
     <input type="text" name="name" value={formData.name} onChange={handleChange} />
     {/* <input type="date" name="checkins" value={formData.checkin} onChange={handleChange} /> */}

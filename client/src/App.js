@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Container } from "react-bootstrap";
-import { UserContext,UserContextProvider } from "./contexts/userContext";
+import { UserContextProvider } from "./contexts/userContext";
 import { FilterContextProvider } from "./contexts/filterContext";
 import PrivateRoute from "./components/route/PrivateRoute";
 import DetailHouse from "./pages/DetailHouse";

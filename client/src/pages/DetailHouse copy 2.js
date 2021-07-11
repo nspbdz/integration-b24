@@ -3,12 +3,12 @@ import { useParams } from "react-router-dom";
 import { Row, Col,Button } from "react-bootstrap";
 import { FaBath,FaBed } from 'react-icons/fa';
 import ModalOrder from "../components/ModalOrder"; 
-import Order from "../components/form/AddOrder"; 
+import Order from "../components/form/Order"; 
 
 import { useState, useEffect } from "react";
 import { API } from "../config/api";
 
-const DetailProperty = ({ match }) => {
+const DetailHouse = ({ match }) => {
   const params = useParams();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -165,4 +165,4 @@ const DetailProperty = ({ match }) => {
   // );
 };
 
-export default DetailProperty;
+export default DetailHouse;
