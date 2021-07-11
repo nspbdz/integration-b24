@@ -8,6 +8,7 @@ import {
 import ModalSignin from "./ModalSignin"; 
 import ModalSignup from "./ModalSignup"; 
 import brand from "../assets/images/brand.svg";
+import Dropd from "./Dropd";
 
 import "../styles/customStyle.css";
 import { setAuthToken } from "../config/api";
@@ -74,6 +75,8 @@ console.log(state);
         {state.isLogin && (
           <>
             <p className="nav-link">{state.user.fullname}</p> 
+            <Dropd />
+            
             <Button
               className="mr-3 my-2"
               variant="danger"

@@ -40,19 +40,14 @@ var lengt;
   
     return response.data.data;
   });
-  if (isLoading) return <p>...loading</p>;
-
 
   const datale=dataLength
   console.log(datale)
-
-console.log(data[0])
-console.log(data.length)
 var lastdata=data.length-1
 console.log(data)
 console.log(data[lastdata])
 const item=data[lastdata]
-// console.log(data.length)
+console.log(data.length)
 // var i=0;
 // for(i=0; i<dataLength; i++ ){
 //   console.log(i)

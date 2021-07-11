@@ -1,42 +1,29 @@
 import { useParams } from "react-router-dom";
 
-import { Row, Col,Button } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import { FaBath,FaBed } from 'react-icons/fa';
-import ModalOrder from "../components/ModalOrder"; 
-// import Order from "../components/form/Order"; 
 
 import { useState, useEffect } from "react";
 import { API } from "../config/api";
 
-const House = ({ match }) => {
+const HouseId = ({ match }) => {
   const params = useParams();
   const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [showOrder, setshowOrder] = useState(false);
-  
-  const getHouse = async () => {
+  const [loading, setLoading] = useState(true);
+  const getProduct = async () => {
     const response = await API.get(`/house/${params.id}`);
+    console.log(response);
     setData(response.data.data);
     setLoading(false);
   };
   useEffect(() => {
-    getHouse();
+    getProduct();
     return () => {
       setData(null);
     };
   }, []);
-
-  // if (loading) return <p>loading...</p>;
-  console.log(data)
-
-  const handleAddProduct = async (data, config) => {
-   await API.post("/transaction", data, config);
-    // refetch();
-    console.log(data)
-    console.log(config)
-  };
-
-
+console.log(data)
+  if (loading) return <p>loading...</p>;
   return (
     
 <>
@@ -44,19 +31,30 @@ const House = ({ match }) => {
                         <Col xs lg="4">
                         </Col>
                         <Col md="auto" style={{ paddingBottom:"12px"}}>
+             <img src={data.image} style={{width:"1018px",height:"400.16px",paddingTop:"50px"}} alt="brand" />
                         <Row style={{paddingBottom:"40px"}}>
                         <Col sm="4">
+              <img src={data.image} style={{width:"320px",height:"160.16px",paddingTop:"12px"}} alt="brand" />
                         </Col>
                         <Col sm="4">
+              <img src={data.image} style={{width:"320px",height:"160.16px",paddingTop:"12px"}} alt="brand" />
                         </Col>
                         <Col sm="4">
+              <img src={data.image} style={{width:"320px",height:"160.16px",paddingTop:"12px"}} alt="brand" />
+
                         </Col>
+
+
                         </Row>
-                        {/* <h1>{data.name}</h1> */}
+
+                        <h1>{data.name}</h1>
+
                         <Row>
                             <Col sm="4">
-                        {/* <h4>Rp. {data.price}/Year</h4> */}
-                        {/* <p>{data.address}</p> */}
+                        <h4>Rp. {data.price}/Year</h4>
+
+                        <p>{data.address}</p>
+
                             </Col>
 
                             <Col sm="4">        </Col>
@@ -67,17 +65,17 @@ const House = ({ match }) => {
                                     <Col sm="4">
                                     
                             <p>Bedroom</p>
-                            {/* <p> {data.bedroom} <FaBed/> </p> */}
+                            <p> {data.bedroom} <FaBed/> </p>
                                     </Col>
                                     <Col sm="4">
                                         
                             <p>Bathroom</p>
-                            {/* <p> {data.bathroom} <FaBath/> </p> */}
+                            <p> {data.bathroom} <FaBath/> </p>
                                     </Col>
                                     <Col sm="4">
                                         
                             <p>Area</p>
-                            {/* <p> {data.area} Ft </p> */}
+                            <p> {data.area} Ft </p>
                                     </Col>
                                     </Row>
                                
@@ -110,13 +108,41 @@ const House = ({ match }) => {
                         </Col>
                         </Row>
 
+                        <h4 className="text-center"> {data.description}</h4>
+                        <Row>
+                        <Col sm></Col>
+                        <Col sm></Col>
+                           {/* {!state.isLogin ? */}
+                    
+                      <Col sm>
                       
+                        </Col>
+
+                        </Row> 
+
     
 </>
 
-  
-    )
-  
+    // <Row>
+    //   <Col xs={6}>
+    //     <img src={data.image} alt="product" className="img-fluid" />
+    //   </Col>
+    //   <Col>
+    //     <Row>
+    //       <p>{data.name}</p>
+    //     </Row>
+    //     <Row>
+    //       <p>price: </p>
+    //       <p>{data.price}</p>
+    //     </Row>
+    //     <Row>
+    //       <p>description: </p>
+    //       <br />
+    //       <p>{data.description}</p>
+    //     </Row>
+    //   </Col>
+    // </Row>
+  );
 };
 
-export default House;
+export default HouseId;

@@ -1,69 +1,50 @@
 import { useState } from "react";
-import { Form, Button } from "react-bootstrap";
-
+// import { Form, Button } from "react-bootstrap";
+import { Row,Button, Col } from "react-bootstrap";
+import AddOrder from "../components/form/AddOrder"
+import HouseId from "../components/HouseId"
 function AddProduct(props) {
-  const [data, setData] = useState([])
-  const [formData, setFormData] = useState({
-      name: "",
-      checkin:2000-10-10,
-    checkout: "",
-    user_id:1,
-    houseId:19,
-    status:"pending"
-    // checkin: "",
-  });
-  const handleChange = (event) => {
-    const a=event.target.value
-    console.log(formData)
-    // setFormData(event.target.value)
-    setFormData({
-      ...formData,
-      [event.target.name]:event.target.value,
-    });
-
-  }
-  const aa=String(formData.checkin)
-  console.log(formData.checkin)
-
-  const saveGames = () => {
-    fetch('http://localhost:5000/api/v1/transaction', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name: formData.name,
-        checkin: formData.checkin,
-        checkout: formData.checkout,
-        user_id: 1,
-        houseId: 1,
-        status: "pending",
-
-        user_id: formData.user_id,
-        houseId: formData.houseId,
-        status: formData.status,
-      }),
-    })
-      .then((res) => res.json())
-      .then((result) => setData(result.rows))
-      .catch((err) => console.log('error'))
-  }
-
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    saveGames() // Save games when form is submitted
-  }
-
+  
+  const [showSignin, setshowSignin] = useState(false);
+ 
   return (
+    <div>
+    <Row>
+    <Col>
+    <HouseId />
+    <Row>
+                        <Col sm></Col>
+                        <Col sm></Col>
+                           {/* {!state.isLogin ? */}
+                    
+                      <Col sm>
+                        <>
+                      <Button  onClick={() => setshowSignin(true)} className="justic=fy" variant="primary" type="submit">
+                          Apply
+                      </Button>
+                      {/* </Button> */}
+                      <AddOrder 
+                      show={showSignin}
+                      handleClose={() => setshowSignin(false)}
+                      />
+                      </>
+                        </Col>
+
+                        </Row> 
+
     
-    <form onSubmit={handleSubmit}>
-    <input type="text" name="name" value={formData.name} onChange={handleChange} />
-    {/* <input type="date" name="checkins" value={formData.checkin} onChange={handleChange} /> */}
-    <input type="date" name="checkin" value={formData.checkin} onChange={handleChange} />
-    <input type="date" name="checkout" value={formData.checkout} onChange={handleChange} />
-    
-    <button type="submit">click</button>
-  </form>
+    </Col>
+    {/* <Col>
+    <Button  onClick={() => setshowSignin(true)} className="justic=fy" variant="primary" type="submit">
+            Apply
+        </Button>
+        <AddOrder 
+        show={showSignin}
+        handleClose={() => setshowSignin(false)}
+        />
+    </Col> */}
+  </Row>
+</div>
   );
 }
 

@@ -11,7 +11,7 @@ import { API } from "../config/api";
 const DetailHouse = ({ match }) => {
   const params = useParams();
   const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [showOrder, setshowOrder] = useState(false);
   
   const getHouse = async () => {
@@ -26,7 +26,7 @@ const DetailHouse = ({ match }) => {
     };
   }, []);
 
-  if (loading) return <p>loading...</p>;
+  // if (loading) return <p>loading...</p>;
   console.log(data)
 
   const handleAddProduct = async (data, config) => {
@@ -43,7 +43,7 @@ const DetailHouse = ({ match }) => {
                         <Row className="justify-content-md-center">
                         <Col xs lg="4">
                         </Col>
-                        <Col md="auto" style={{ paddingBottom:"12px"}}>
+                        {/* <Col md="auto" style={{ paddingBottom:"12px"}}>
              <img src={data.image} style={{width:"1018px",height:"400.16px",paddingTop:"50px"}} alt="brand" />
                         <Row style={{paddingBottom:"40px"}}>
                         <Col sm="4">
@@ -113,7 +113,7 @@ const DetailHouse = ({ match }) => {
                         </Row>
                         
 
-                        </Col>
+                        </Col> */}
 
                        
                         <Col xs lg="4">
@@ -121,7 +121,7 @@ const DetailHouse = ({ match }) => {
                         </Col>
                         </Row>
 
-                        <h4 className="text-center"> {data.description}</h4>
+                        {/* <h4 className="text-center"> {data.description}</h4> */}
                         <Row>
                         <Col sm></Col>
                         <Col sm></Col>

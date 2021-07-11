@@ -55,12 +55,7 @@ console.log(loadingFilter)
       <Row>
         <Col xs={4}>
           <Sidebar />
-          {/* <p></p> */}
           <Row>
-            {/* <Button  onClick={() => setPage("about")} className="justic=fy" variant="primary" type="submit">
-                Apply
-            </Button>
-             */}
              <Button  onClick={getProduct => setPage(true)} className="justic=fy" variant="primary" type="submit">
                 Apply
             </Button>

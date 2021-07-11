@@ -4,7 +4,7 @@ const { Router } = require("express");
 const {housesFilter,getHousesParam,updateHouse,getHouses,getHouse,createHouse,deleteHouse} = require("../controllers/houses")
 const { register, signin,checkAuth } = require('../controllers/auth')
 const { users, myProfile, updateUser,deleteUser } = require('../controllers/user')
-const { createTransaction,updateTransaction,getTransaction,getAllTransaction } = require('../controllers/transaction')
+const { createTransaction,updateTransaction,getTransaction,getAllTransaction,transactionId } = require('../controllers/transaction')
 
 
 // Middleware 
@@ -42,6 +42,8 @@ router.patch("/updatetransaction/:id", auth,uploadFile("imageFile"), updateTrans
 // updateTransaction
 router.get("/transaction/:id", getTransaction)
 router.get("/transactions", getAllTransaction)
+router.get("/transaction", transactionId)
 
+// transactionId
 
 module.exports = router;

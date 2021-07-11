@@ -1,99 +1,102 @@
-import { useState } from "react";
+import { useState,useContext } from "react";
 import { Form, Button } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
+import { useHistory,Router,Link } from "react-router-dom";
+import { UserContext } from "../../contexts/userContext";
 
-function AddProduct(props) {
-  const [data, setData] = useState({
-    name: "",
-    price: 0,
-    description: "",
-    imageFile: null,
-    category: "",
+function AddOrder(props) {
+  
+  const { handleClose,handleOrder, show } = props;
+  const router = useHistory();
+  const tokens=localStorage.getItem("token");
+  console.log(tokens);
+  const contextValue = useContext(UserContext);
+  const userId=contextValue[0].user.id;
+  const pa =window.location.pathname
+  const splitval=pa.split("/house/")
+  const urlVal=splitval[1]
+  console.log(urlVal)
+  
+  const [data, setData] = useState([])
+  const [formData, setFormData] = useState({
+      // name: "",
+    checkin:2000-10-10,
+    checkout: "",
+    user_id:'',
+    houseId:'',
+    // status:"pending"
+    // checkin: "",
   });
-
-  const handleChange = (e) => {
-    setData({
-      ...data,
-      [e.target.name]:
-        e.target.type === "file" ? e.target.files[0] : e.target.value,
+  const handleChange = (event) => {
+    const a=event.target.value
+    console.log(formData)
+    // setFormData(event.target.value)
+    setFormData({
+      ...formData,
+      [event.target.name]:event.target.value,
     });
-  };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log(data);
-    try {
-      const formData = new FormData();
-      formData.set("name", data.name);
-      formData.set("price", data.price);
-      formData.set("description", data.description);
-      formData.append("imageFile", data.imageFile, data.imageFile.name);
-      formData.set("category", data.category);
+  }
+  const aa=String(formData.checkin)
+  console.log(formData.checkin)
 
-      const config = {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      };
-      await props.onAddProduct(formData, config);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const saveGames = () => {
+    fetch('http://localhost:5000/api/v1/transaction', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        // name: formData.name,
+        checkin: formData.checkin,
+        checkout: formData.checkout,
+        user_id: userId,
+        houseId: urlVal,
+        // status: "pending",
+     
+      }),
+    })
+      .then((res) => res.json() )
+      .then((res) => {
+       console.log(res)
+       const stat=res.status
+       if(stat=="success"){
+        console.log("success")
+        alert("kamu berhasil membuat transaksi")
+        router.push(`/mybooking`);
+       }
+       console.log(res.status)
+     }) 
+      .then((result) => setData(result.rows))
+      // .then({
+      //   props.onAddOrder(formData);
+      // })
+      .catch((err) => console.log('error'))
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    saveGames() // Save games when form is submitted
+  }
+
   return (
-    <div>
-      <Form onSubmit={handleSubmit}>
-        <Form.Group>
-          <Form.Control
-            name="name"
-            type="text"
-            value={data.name}
-            required
-            placeholder="product name"
-            onChange={handleChange}
-          />
-        </Form.Group>
-        <Form.Group>
-          <Form.Control
-            name="price"
-            type="number"
-            value={data.price}
-            required
-            placeholder="price"
-            onChange={handleChange}
-          />
-        </Form.Group>
-        <Form.Group>
-          <Form.Control
-            name="description"
-            type="text"
-            placeholder="description"
-            required
-            value={data.description}
-            onChange={handleChange}
-          />
-        </Form.Group>
-        <Form.Group>
-          <Form.Control
-            name="imageFile"
-            type="file"
-            onChange={handleChange}
-            required
-          />
-        </Form.Group>
-        <Form.Group>
-          <Form.Control
-            name="category"
-            type="text"
-            required
-            placeholder="category"
-            value={data.category}
-            onChange={handleChange}
-          />
-        </Form.Group>
-        <Button type="submit">Add</Button>
-      </Form>
-    </div>
+    <Modal show={show} onHide={handleClose}>
+      <Modal.Body>
+    <form onSubmit={handleSubmit}>
+
+    <br></br>
+  
+    <input type="date" name="checkin" value={formData.checkin} onChange={handleChange} />
+    <br></br>
+  
+    <input type="date" name="checkout" value={formData.checkout} onChange={handleChange} />
+    <br></br>
+    
+    <button type="submit">click</button>
+  </form>
+  </Modal.Body>
+    </Modal>
   );
 }
 
-export default AddProduct;
+export default AddOrder;

@@ -1,5 +1,6 @@
 const { transaction,user,listAs,House,City } = require('../../models')
 const joi = require('joi')
+const { Op } = require("sequelize");
 
 exports.createTransaction = async (req, res) => {
   // const {  ...transactionsData } = req.body;
@@ -349,3 +350,124 @@ exports.getAllTransaction = async (req, res) => {
     }
 }
   
+
+
+exports.transactionId = async (req, res) => {
+  try {
+    const transactions = await transaction.findAll({
+      where: {
+        user_id: {
+          [Op.eq]: parseInt(req.query.user_id)
+        },
+      },
+
+      include: [
+        {
+            model:House,
+            as:"house",
+            attributes:{
+              exclude:["id","createdAt", "updatedAt"],
+            },
+            include: [
+                {
+                  model: City,
+                  as: "city",
+                  attributes: {
+                    exclude: [  "createdAt", "updatedAt"],
+                  },
+                },
+                
+               
+              ],
+        attributes:{
+
+              exclude:[ "city_id","createdAt", "updatedAt"],
+            },
+          },
+    ],
+
+       
+        attributes:{
+            exclude:[ "user_id","houseId","createdAt", "updatedAt"],
+          },
+      });
+  
+      
+  
+
+    res.send({
+      status: "success",
+      message: "resource has successfully get",
+      data: transactions
+
+    });
+  } catch (error) {
+    console.log(error)
+    res.status(500).send({
+      // status: "failed",
+      message: "internal server error",
+    });
+  }
+};
+
+
+exports.getTransactionId = async (req, res) => {
+  try {
+      const path = process.env.PATH_FILE
+  
+      const transactions = await transaction.findOne({
+          
+      where: {
+          user_id: req.params.user_id,
+      },
+      include: [
+          {
+              model:House,
+              as:"house",
+              attributes:{
+                exclude:["id","createdAt", "updatedAt"],
+              },
+              include: [
+                  {
+                    model: City,
+                    as: "city",
+                    attributes: {
+                      exclude: [  "createdAt", "updatedAt"],
+                    },
+                  },
+                  
+                 
+                ],
+          attributes:{
+  
+                exclude:[ "city_id","createdAt", "updatedAt"],
+              },
+            },
+      ],
+      
+      attributes:{
+          exclude:[ "user_id","houseId","createdAt", "updatedAt"],
+        },
+      });
+  
+  
+      const parseJSON = JSON.parse(JSON.stringify(transactions))
+  
+  
+  
+      res.send({
+      status: "success",
+      message: "resource has successfully get",
+      data: transactions,
+     
+      });
+  } catch (error) {
+      console.log(error);
+  
+      res.status(500).send({
+      status: "failed",
+      message: "internal server error",
+      });
+  }
+  };
+      
