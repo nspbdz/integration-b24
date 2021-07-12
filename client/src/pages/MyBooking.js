@@ -20,7 +20,6 @@ console.log(contextValue[0])
   const userId=contextValue[0].user.id;
   const dataUser=contextValue[0];
 console.log(userId)
-var lengt;
   
 
   const { isLoading, data, error } = useQuery("products", async () => {
@@ -32,8 +31,6 @@ var lengt;
   if (isLoading) return <p>...loading</p>;
 
 
-  const datale=dataLength
-  console.log(datale)
 
 console.log(data[0])
 console.log(data.length)
@@ -41,25 +38,70 @@ var lastdata=data.length-1
 console.log(data)
 console.log(data[lastdata])
 const item=data[lastdata]
-// console.log(data.length)
-// var i=0;
-// for(i=0; i<dataLength; i++ ){
-//   console.log(i)
-// }
-
 console.log(data)
-// const a=data.map(item => {
-// console.log(item)
-// })
 
-// console.log(data.transactions)
   // if (loading) return <p>loading...</p>;
 
 
 
-// const Nowss =new Date().toLocaleTimeString("en-US", { month: "long",day: "2-digit" })
-// console.log(Nowss)
-//   window.location.href
+console.log(item.checkin)
+var d1 = new Date(item.checkin);
+var d2 = new Date(item.checkout);
+const checkinYear=d1.getUTCFullYear()
+const checkinMonth=d1.getUTCMonth()
+const checkinDay=d1.getUTCDay()
+
+const checkoutYear=d2.getUTCFullYear()
+const checkoutMonth=d2.getUTCMonth()
+const checkoutDay=d2.getUTCDay()
+
+// console.log(checkinYear);
+// console.log(checkinMonth);
+// console.log(checkinDay);
+
+// console.log(checkoutYear);
+// console.log(checkoutMonth);
+// console.log(checkoutDay);
+
+const compareYear=checkoutYear-checkinYear
+const compareMonth=checkoutMonth-checkinMonth
+const compareDay=checkoutDay-checkinDay
+var AllCompared=0;
+
+if(compareDay ==0){
+  var AllCompared=AllCompared
+}
+else if(compareDay >0){
+  console.log("day")
+  console.log(compareDay)
+  // var AllCompared=compMonth+compareDay
+  var AllCompared=AllCompared+compareDay
+  
+  if(compareMonth >0){
+    var compMonth=compareMonth*30
+    console.log(compMonth)
+    var AllCompared=compMonth+compareDay
+
+  }
+  if(compareYear >0){
+    var compYear=compareYear*365
+    var AllCompared=compYear+compareDay
+    console.log(AllCompared)
+  }
+}
+
+// data untuk type rent
+// <p>{compareYear +"Year "}
+//     {compareMonth +" Month "}
+//     {compareDay +" Day"} </p>
+
+
+console.log(compareYear);
+console.log(compareMonth);
+console.log(compareDay);
+
+console.log(AllCompared);
+var rent=''
 
 
   return(
@@ -167,7 +209,11 @@ console.log(data)
   <p>Long Time Rent :</p>
   </Col>
   <Col sm={2}>
-  <p>1 Year </p>
+  <p>{compareYear +"Year "}
+    {compareMonth +" Month "}
+    {compareDay +" Day"} </p>
+
+  {/* <p>{compYear +"year",compareDay +"Day"} </p> */}
   </Col>
 </Row>
 {/* </> */}
@@ -180,7 +226,7 @@ console.log(data)
   <Col sm={4}> </Col>
   <Col sm={4}> </Col>
   <Col sm={2}>Total : </Col>
-  <Col sm={2}>Rp. {item.house.price} </Col>
+  <Col sm={2}>Rp. {item.house.price*AllCompared} </Col>
 </Row>
 
   </ListGroup.Item>
