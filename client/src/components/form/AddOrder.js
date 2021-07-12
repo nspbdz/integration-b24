@@ -40,7 +40,7 @@ function AddOrder(props) {
   const aa=String(formData.checkin)
   console.log(formData.checkin)
 
-  const saveGames = () => {
+  const MakeTransaction = () => {
     fetch('http://localhost:5000/api/v1/transaction', {
       method: 'POST',
       headers: {
@@ -52,7 +52,7 @@ function AddOrder(props) {
         checkout: formData.checkout,
         user_id: userId,
         houseId: urlVal,
-        status: "pending",
+        status: "waiting",
      
       }),
     })
@@ -68,15 +68,13 @@ function AddOrder(props) {
        console.log(res.status)
      }) 
       .then((result) => setData(result.rows))
-      // .then({
-      //   props.onAddOrder(formData);
-      // })
+      
       .catch((err) => console.log('error'))
   }
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    saveGames() // Save games when form is submitted
+    MakeTransaction() 
   }
 
   return (

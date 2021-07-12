@@ -177,7 +177,7 @@ exports.createTransaction = async (req, res) => {
         }
         await transaction.update(data, {
             where: {
-              id,
+              id:id
             },
           });
           const transactions = await transaction.findOne({
@@ -191,8 +191,8 @@ exports.createTransaction = async (req, res) => {
       
           res.send({
             status: "success",
-            message: "resource has successfully deleted",
-            data: transactions,
+            message: "resource has successfully Updated",
+            data: transaction,
           });
         } catch (error) {
             console.log(error)

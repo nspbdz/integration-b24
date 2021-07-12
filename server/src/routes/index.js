@@ -38,7 +38,8 @@ router.patch("/house/:id", uploadFile("imageFile"), updateHouse)
 
 // router.post("/transaction", auth, createTransaction)
 router.post("/transaction",  createTransaction)
-router.patch("/updatetransaction/:id", auth,uploadFile("imageFile"), updateTransaction)
+// router.patch("/updatetransaction/:id", auth,uploadFile("imageFile"), updateTransaction)
+router.patch("/updatetransaction/:id", uploadFile("imageFile"), updateTransaction)
 // updateTransaction
 router.get("/transaction/:id", getTransaction)
 router.get("/transactions", getAllTransaction)
