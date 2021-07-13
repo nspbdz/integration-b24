@@ -9,6 +9,8 @@ import Home from "./pages/Home";
 import Header from "./components/Header";
 import About from "./pages/About";
 import MyBooking from "./pages/MyBooking";
+import MyBookingPending from "./pages/MyBookingPending";
+
 // MyBooking
 // import DetailProduct from "./pages/DetailProduct";
 import { API, setAuthToken } from "./config/api";
@@ -39,6 +41,7 @@ const App = () => {
                 <Route exact path="/house/:id" component={DetailHouse} />
                 {/* <Route exact path="/MyBooking" component={MyBooking} /> */}
                 <PrivateRoute exact path="/MyBooking" component={MyBooking} />
+                <Route exact path="/MyBookingPending" component={MyBookingPending} />
                
                 {/* <PrivateRoute exact path="/house/:id" component={DetailHouse} /> */}
                 {/* <PrivateRoute exact path="/product/:id" component={DetailProduct} /> */}

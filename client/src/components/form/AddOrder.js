@@ -16,14 +16,21 @@ function AddOrder(props) {
   const splitval=pa.split("/house/")
   const urlVal=splitval[1]
   console.log(urlVal)
+  // var Gethouse_id =localStorage.getItem("house_id")
+// console.log(a)
+var GetPrice =localStorage.getItem("price")
+console.log(GetPrice)
   
+
   const [data, setData] = useState([])
   const [formData, setFormData] = useState({
       // name: "",
-    checkin:2000-10-10,
+    checkin:"",
     checkout: "",
     user_id:'',
     houseId:'',
+    total:'',
+    totaltime:''
     // status:"pending"
     // checkin: "",
   });
@@ -39,6 +46,59 @@ function AddOrder(props) {
   }
   const aa=String(formData.checkin)
   console.log(formData.checkin)
+  console.log(formData.checkout)
+  var d1 = new Date(formData.checkin);
+  var d2 = new Date(formData.checkout);
+  const checkinYear=d1.getUTCFullYear()
+  const checkinMonth=d1.getUTCMonth()
+  const checkinDay=d1.getUTCDate()
+  const checkoutYear=d2.getUTCFullYear()
+  const checkoutMonth=d2.getUTCMonth()
+  const checkoutDay=d2.getUTCDate()
+  
+  console.log(checkinYear);
+console.log(checkinMonth);
+console.log(checkinDay);
+
+console.log(checkoutYear);
+console.log(checkoutMonth);
+console.log(checkoutDay);
+
+const compareYear=checkoutYear-checkinYear
+const compareMonth=checkoutMonth-checkinMonth
+const compareDay=checkoutDay-checkinDay
+var AllCompared=0;
+
+if(compareDay ==0){
+  var AllCompared=AllCompared
+}
+else if(compareDay >0){
+  console.log("day")
+  console.log(compareDay)
+  // var AllCompared=compMonth+compareDay
+  var AllCompared=compareDay
+  
+  if(compareMonth >0){
+    var compMonth=compareMonth*30
+    console.log(compMonth)
+    var AllCompared=compMonth+compareDay
+
+  }
+  if(compareYear >0){
+    var compYear=compareYear*365
+    var AllCompared=compYear+compareDay
+    console.log(AllCompared)
+  }
+}
+const totalHari=compareYear+"Year  " +compareMonth +" Month " +compareDay +" Day"
+// const totals=item.house.price*AllCompared
+// const harga=formData.house.price
+// const totals=harga*AllCompared
+// console.log(totals)
+console.log(AllCompared)
+
+// console.log(harga)
+// console.log(totals)
 
   const MakeTransaction = () => {
     fetch('http://localhost:5000/api/v1/transaction', {
@@ -53,6 +113,8 @@ function AddOrder(props) {
         user_id: userId,
         houseId: urlVal,
         status: "waiting",
+        total:GetPrice*AllCompared,
+        totaltime:totalHari,
      
       }),
     })

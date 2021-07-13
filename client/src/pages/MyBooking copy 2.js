@@ -119,6 +119,8 @@ console.log(dataUpdate)
 // console.log(dataUpdate.imageFile.name)
 
 const handleSubmit = async (e) => {
+  console.log(res)
+
   e.preventDefault();
   console.log(data);
   console.log("clicked")
@@ -142,11 +144,18 @@ const handleSubmit = async (e) => {
         // headers: {
         //   'Content-Type': 'multipart/form-data; ',
         // },
+        
       }
+    console.log(res)
+      
     );
+    console.log(res)
+
   } catch (error) {
     console.log(error);
   }
+  console.log(res)
+  
 };
 
 const handleClicks = (event) => {

@@ -20,7 +20,8 @@ router.post('/login', signin)
 
 // router.get('/users', auth, users) // dengan token
 router.get('/users', users)
-router.get('/my-profile', auth, myProfile)
+// router.get('/my-profile', auth, myProfile)
+router.get('/my-profile',  myProfile)
 router.patch('/user', auth, uploadFile("imageFile"), updateUser)
 router.delete('/user/:id',deleteUser)
 router.get("/check-auth", auth, checkAuth);

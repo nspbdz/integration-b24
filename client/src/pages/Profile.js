@@ -6,6 +6,8 @@ import { BsPeopleCircle,BsEnvelope,BsLock,BsFillHouseFill,BsGeoAlt } from 'react
 import { FaTransgender,FaPhone } from 'react-icons/fa';
 import ModalChangePassword from '../components/ModalChangePassword'
 // import userData from '../data/User'
+import { API } from "../config/api";
+import { useQuery } from "react-query";
 
 function Profile() {
   const {state} = useContext(UserContext);
@@ -30,6 +32,15 @@ function Profile() {
     e.preventDefault();
     console.log('You clicked submit.');
   }
+
+  const { isLoading, data, error } = useQuery("products", async () => {
+    // /  const response = await API.get("/products");
+      const response = await API.get(`/my-profile`);
+    
+      return response.data.data;
+    });
+    if (isLoading) return <p>...loading</p>;
+  
   return (
     <>
  {priceToShow.map( item => {

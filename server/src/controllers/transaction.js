@@ -60,6 +60,7 @@ exports.createTransaction = async (req, res) => {
 
 
     createdTransaction = JSON.parse(JSON.stringify(createdTransaction));
+    
    
     res.send({
       status: "success",
@@ -166,6 +167,7 @@ exports.createTransaction = async (req, res) => {
 //   };
   exports.updateTransaction = async (req, res) => {
   const { id } = req.params;
+  const path = process.env.PATH_FILE
 
     try {
         let data = req.body
@@ -180,7 +182,7 @@ exports.createTransaction = async (req, res) => {
               id:id
             },
           });
-          const transactions = await transaction.findOne({
+          let transactions = await transaction.findOne({
             where: {
               id,
             },
@@ -188,7 +190,25 @@ exports.createTransaction = async (req, res) => {
               exclude: ["createdAt", "updatedAt"],
             },
           });
-      
+
+          // let parseJSON = JSON.parse(JSON.stringify(transactions))
+
+          //     transactions = parseJSONs =>{
+          
+          //         return {
+          //             ...transactions,
+          //             attachment: attachment ? path + attachment : null
+          //         }
+          // }
+      const parseJSON = JSON.parse(JSON.stringify(transactions))
+
+      transactions = parseJSONs => {
+          return {
+              ...transaction,
+              attachment: transaction.attachment ? path + transaction.attachment : null
+          }
+      }
+   
           res.send({
             status: "success",
             message: "resource has successfully Updated",
@@ -245,37 +265,18 @@ try {
 
     const parseJSON = JSON.parse(JSON.stringify(transactions))
 
-//     transactions = parseJSONs =>{
-
-//         return {
-//             ...transaction,
-//             attachment: attachment ? path + attachment : null
-//         }
-    
-// }
+      transactions = parseJSONs => {
+          return {
+              ...transaction,
+              attachment: transaction.attachment ? path + transaction.attachment : null
+          }
+      }
 
     res.send({
     status: "success",
     message: "resource has successfully get",
     data: transactions,
-    // data: [{
-    //     id:transactions.id,
-    //     checkin:transactions.checkin,
-    //     checkout:transactions.checkout,
-    //     total:transactions.total,
-    //     status:transactions.status,
-    //     attachment: path + transactions.attachment,
-    //     Houses:{
-    //         id: transactions.id,
-    //         address: transactions.address,
-    //         price: transactions.price,
-    //         typeRent: transactions.typeRent,
-    //         amenities: transactions.amenities,
-    //         bathroom: transactions.bathroom,
-    //         bedroom: transactions.bedroom,
-    //         name: transactions.name,
-    //       }
-    // }]
+    
     
     });
 } catch (error) {
@@ -353,8 +354,10 @@ exports.getAllTransaction = async (req, res) => {
 
 
 exports.transactionId = async (req, res) => {
+  const path = process.env.PATH_FILE
+
   try {
-    const transactions = await transaction.findAll({
+    let transactions = await transaction.findAll({
       where: {
         user_id: {
           [Op.eq]: parseInt(req.query.user_id)
@@ -391,10 +394,17 @@ exports.transactionId = async (req, res) => {
             exclude:[ "user_id","houseId","createdAt", "updatedAt"],
           },
       });
-  
-      
-  
 
+      const parseJSON = JSON.parse(JSON.stringify(transactions))
+
+      transactions = parseJSON.map(transaction => {
+          return {
+              ...transaction,
+              attachment: transaction.attachment ? path + transaction.attachment : null
+          }
+      })
+   
+      
     res.send({
       status: "success",
       message: "resource has successfully get",
@@ -410,64 +420,3 @@ exports.transactionId = async (req, res) => {
   }
 };
 
-
-exports.getTransactionId = async (req, res) => {
-  try {
-      const path = process.env.PATH_FILE
-  
-      const transactions = await transaction.findOne({
-          
-      where: {
-          user_id: req.params.user_id,
-      },
-      include: [
-          {
-              model:House,
-              as:"house",
-              attributes:{
-                exclude:["id","createdAt", "updatedAt"],
-              },
-              include: [
-                  {
-                    model: City,
-                    as: "city",
-                    attributes: {
-                      exclude: [  "createdAt", "updatedAt"],
-                    },
-                  },
-                  
-                 
-                ],
-          attributes:{
-  
-                exclude:[ "city_id","createdAt", "updatedAt"],
-              },
-            },
-      ],
-      
-      attributes:{
-          exclude:[ "user_id","houseId","createdAt", "updatedAt"],
-        },
-      });
-  
-  
-      const parseJSON = JSON.parse(JSON.stringify(transactions))
-  
-  
-  
-      res.send({
-      status: "success",
-      message: "resource has successfully get",
-      data: transactions,
-     
-      });
-  } catch (error) {
-      console.log(error);
-  
-      res.status(500).send({
-      status: "failed",
-      message: "internal server error",
-      });
-  }
-  };
-      

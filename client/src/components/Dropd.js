@@ -78,6 +78,9 @@ const logouts = () => {
         <Dropdown.Item >
     <Link to="/MyBookingHistory" className="btn btn-light">MyBookingHistory</Link>
         </Dropdown.Item>
+        <Dropdown.Item >
+    <Link to="/MyBookingPending" className="btn btn-light">MyBookingPending</Link>
+        </Dropdown.Item>
         
     <Dropdown.Divider />
     <Dropdown.Item >

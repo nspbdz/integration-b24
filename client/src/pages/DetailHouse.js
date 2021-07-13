@@ -20,7 +20,7 @@ function AddProduct(props) {
                       <Col sm>
                         <>
                       <Button  onClick={() => setshowSignin(true)} className="justic=fy" variant="primary" type="submit">
-                          Apply
+                          Book Now
                       </Button>
                       {/* </Button> */}
                       <AddOrder 
