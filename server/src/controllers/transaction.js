@@ -297,6 +297,23 @@ exports.getAllTransaction = async (req, res) => {
 
         let transactions = await transaction.findAll({
             include: [
+              {
+                model:user,
+                as:"user",
+                attributes:{
+                    exclude:["id","user_id","createdAt", "updatedAt"],
+                  },
+                  include: [{
+                model:listAs,
+                as:"listas",
+                attributes: {
+                  exclude: [ "id", "createdAt", "updatedAt"],
+                },
+                  }],
+                  attributes: {
+                      exclude: [ "username","address","email","password","image","gender", "createdAt", "updatedAt"],
+                    },
+              },
                 {
                     model:House,
                     as:"house",
@@ -311,6 +328,7 @@ exports.getAllTransaction = async (req, res) => {
                             exclude: [  "createdAt", "updatedAt"],
                           },
                         },
+                       
                         
                        
                       ],
@@ -327,14 +345,14 @@ exports.getAllTransaction = async (req, res) => {
                   },
               });
           
-        const parseJSON = JSON.parse(JSON.stringify(transactions))
+        // const parseJSON = JSON.parse(JSON.stringify(transactions))
 
-        transactions = parseJSON.map(transaction => {
-            return {
-                ...transaction,
-                attachment: transaction.attachment ? path + transaction.attachment : null
-            }
-        })
+        // transactions = parseJSON.map(transaction => {
+        //     return {
+        //         ...transaction,
+        //         attachment: transaction.attachment ? path + transaction.attachment : null
+        //     }
+        // })
 
         res.send({
             status: 'success',
