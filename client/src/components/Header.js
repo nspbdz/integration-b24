@@ -40,7 +40,7 @@ console.log(state);
     });
     setAuthToken();
   };
-
+console.log(state.user.listasid)
   return (
     <Navbar expand="lg">
       <Link to="/" className="navbar-brand">
@@ -72,9 +72,12 @@ console.log(state);
             </InputGroup.Append>
           </InputGroup>
         </Form>
-        {state.isLogin && (
+        {state.isLogin==true && state.user.listasid==1 &&(
+
           <>
-            <p className="nav-link">{state.user.fullname}</p> 
+          <p>admin</p>
+
+            {/* <p className="nav-link">{state.user.fullname}</p>  */}
             <Dropd />
             
             <Button
@@ -85,7 +88,23 @@ console.log(state);
               Sign out
             </Button>
           </>
-            )}
+        )}
+         {state.isLogin==true && state.user.listasid==2 &&(
+
+          <>
+          <p>user</p>
+            {/* <p className="nav-link">{state.user.fullname}</p>  */}
+            <Dropd />
+            
+            <Button
+              className="mr-3 my-2"
+              variant="danger"
+              onClick={handleSignout}
+            >
+              Sign out
+            </Button>
+          </>
+          )}
        {!state.isLogin && ( 
           <>
             <Button className="mr-3 my-2" onClick={() => setshowSignup(true)}>

@@ -99,12 +99,16 @@ console.log(AllCompared)
 
 // console.log(harga)
 // console.log(totals)
+var token= localStorage.getItem("token")
+console.log(token);
 
   const MakeTransaction = () => {
     fetch('http://localhost:5000/api/v1/transaction', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+          'Authorization':`Bearer ${token}`
+
       },
       body: JSON.stringify({
         // name: formData.name,

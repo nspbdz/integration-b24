@@ -1,4 +1,4 @@
-import { useContext,useState } from "react"
+import { useContext,useState,useEffect } from "react"
 import {UserContext} from "../contexts/userContext";
 import userData from "../data/User";
 import { Card,Jumbotron,Row,Col,Button } from "react-bootstrap";
@@ -6,8 +6,6 @@ import { BsPeopleCircle,BsEnvelope,BsLock,BsFillHouseFill,BsGeoAlt } from 'react
 import { FaTransgender,FaPhone } from 'react-icons/fa';
 import ModalChangePassword from '../components/ModalChangePassword'
 // import userData from '../data/User'
-import { API } from "../config/api";
-import { useQuery } from "react-query";
 
 function Profile() {
   const {state} = useContext(UserContext);
@@ -15,39 +13,70 @@ function Profile() {
   console.log(contextValue[0].user.name)
   const userlogin=contextValue[0].user.username
   console.log(userlogin);
+  const [loading, setLoading] = useState(true);
 
+
+  const [dataUser, setDataUser] = useState(null);
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  var token= localStorage.getItem("token")
 
-  // <p className='h2'>{contextValue[0].user.name}</p>
+  
+  const MakeTransaction = () => {
+    fetch('http://localhost:5000/api/v1/my-profile', {
+      method: 'GET',
+      headers: {
+          'Authorization':`Bearer ${token}`
+      },
+     
+    })
+      .then((res) => res.json() )
+      .then((res) => {
+       console.log(res)
+       const stat=res.status
+       if(stat=="success"){
+        console.log("success")
+        setDataUser(res.data.myData);
+        setLoading(false);
+        // alert("kamu berhasil membuat transaksi")
+        // router.push(`/mybooking`);
+       }
+       console.log(res.status)
+     }) 
+      .catch((err) => console.log('error'))
+  }
 
-  const priceToShow = userData.filter(item => ( item.username === userlogin ));
-  console.log(priceToShow);
-  console.log(userData);
+
+  useEffect(() => {
+    MakeTransaction();
+  }, []);
+  console.log(dataUser)
+  const item=dataUser
+console.log(item)
+  // console.log(dataUser.myData)
+  // const item=dataUser.myData
+  // const handleSubmit = (event) => {
+  //   event.preventDefault()
+  //   MakeTransaction() 
+  // }
+  
+
+
+
+
 
   function handleSubmit(e) {
     e.preventDefault();
     console.log('You clicked submit.');
   }
+  if (loading) return <p>loading...</p>;
 
-  const { isLoading, data, error } = useQuery("products", async () => {
-    // /  const response = await API.get("/products");
-      const response = await API.get(`/my-profile`);
-    
-      return response.data.data;
-    });
-    if (isLoading) return <p>...loading</p>;
-  
   return (
     <>
- {priceToShow.map( item => {
-      
-    
-      //  console.log(Fur)
-        return <div>
+     <div>
          
       
            <Jumbotron style={{marginBottom: "20px"}}>
@@ -148,8 +177,8 @@ function Profile() {
 
     </Jumbotron>
             </div>
-    })
-}
+    
+
     
     </>
   )

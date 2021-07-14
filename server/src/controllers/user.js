@@ -47,18 +47,25 @@ exports.users = async (req, res) => {
 }
 
 exports.myProfile = async (req, res) => {
+  
     try {
+    const path = process.env.PATH_FILE
+
         const { idUser } = req
 
-        const myData = await user.findOne({
-            where: {
-                id: idUser
-            },
+        let myData = await user.findOne({
+            // where: {
+            //     id: idUser
+            // },
             attributes: {
                 exclude: ['password', 'createdAt', 'updatedAt']
             }
         })
-
+        myData = JSON.parse(JSON.stringify(myData));
+        myData = {
+          ...myData,
+          image: path + myData.image,
+        };
         res.send({
             status: 'success',
             data: {
