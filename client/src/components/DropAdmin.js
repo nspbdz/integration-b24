@@ -10,18 +10,19 @@ import userData from "../data/User";
 import { Card,Jumbotron,Row,Col,Button,DropdownButton,Image } from "react-bootstrap";
 import { BsPeopleCircle,BsEnvelope,BsLock,BsFillHouseFill,BsGeoAlt } from 'react-icons/bs';
 import { FaTransgender,FaPhone } from 'react-icons/fa';
-import ModalChangePassword from '../components/ModalChangePassword'
+import ModalChangePassword from './ModalChangePassword'
 // import userData from '../data/User'
 import Profile from "../pages/Profile";
 
-function Dropd(){
-  const [state, dispatch] = useContext(UserContext);
-const handleSignout = (e) => {
-    dispatch({
-      type: "LOGOUT",
-    });
-    setAuthToken();
-  };
+function DropAdmin(){
+
+const [state, dispatch] = useContext(UserContext);
+console.log(state.isLogin)
+const logouts = () => {
+    dispatch(false)
+    // dispatch({isLogin: false,  });
+};
+
   const contextValue = useContext(UserContext);
   console.log(contextValue[0].user.name)
   const userlogin=contextValue[0].user.username
@@ -32,7 +33,12 @@ const handleSignout = (e) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
+  const handleSignout = (e) => {
+    dispatch({
+      type: "LOGOUT",
+    });
+    setAuthToken();
+  };
 
   // <p className='h2'>{contextValue[0].user.name}</p>
 
@@ -63,20 +69,18 @@ const handleSignout = (e) => {
         <Row>
         <Col sm="2"> <BsCalendar /> </Col>
         <Col sm="2">
-    <Link to="/MyBooking" className="btn btn-light">MyBooking</Link>
+    <Link to="/AddProperty" className="btn btn-light">AddProperty</Link>
           
         </Col>
       </Row>
         </Dropdown.Item>
         <Dropdown.Item >
-    <Link to="/MyBookingHistory" className="btn btn-light">MyBookingHistory</Link>
+    <Link to="/History" className="btn btn-light">History</Link>
         </Dropdown.Item>
-        <Dropdown.Item >
-    <Link to="/MyBookingPending" className="btn btn-light">MyBookingPending</Link>
-        </Dropdown.Item>
-        
+       
     <Dropdown.Divider />
     <Dropdown.Item >
+        
     <Link to="/" onClick={handleSignout} className="btn btn-light">Logout</Link>
         </Dropdown.Item>
   </Dropdown.Menu>
@@ -85,4 +89,4 @@ const handleSignout = (e) => {
         </>
     )
 }
-export default Dropd;
+export default DropAdmin;

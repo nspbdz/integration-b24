@@ -4,7 +4,7 @@ const { Router } = require("express");
 const {housesFilter,getHousesParam,updateHouse,getHouses,getHouse,createHouse,deleteHouse} = require("../controllers/houses")
 const { register, signin,checkAuth } = require('../controllers/auth')
 const { users, myProfile, updateUser,deleteUser } = require('../controllers/user')
-const { createTransaction,updateTransaction,getTransaction,getAllTransaction,transactionId } = require('../controllers/transaction')
+const { createTransaction,StatusUpdate,updateTransaction,getTransaction,getAllTransaction,transactionId } = require('../controllers/transaction')
 
 
 // Middleware 
@@ -42,6 +42,7 @@ router.post("/transaction", authentication, createTransaction)
 // router.post("/transaction",  createTransaction)
 // router.patch("/updatetransaction/:id", auth,uploadFile("imageFile"), updateTransaction)
 router.patch("/updatetransaction/:id", uploadFile("imageFile"), updateTransaction)
+router.put("/updatetransacti/:id", StatusUpdate)
 // updateTransaction
 router.get("/transaction/:id", getTransaction)
 router.get("/transactions", getAllTransaction)

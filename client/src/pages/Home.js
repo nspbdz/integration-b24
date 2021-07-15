@@ -29,21 +29,19 @@ const Home = () => {
   const bathroom= contextValue[0].data.bathroom
   console.log(typeRent)
   console.log(state)
-  // console.log(state.user.listasid)
-// const userAs=state.user.listasid
-// console.log(isLogin)
   const { isLoading, data, error } = useQuery("houses", async () => {
-    // const response = await API.get("/houses");
-      const response = await API.get(`/house?typeRent=${typeRent}&amenities=${amenities}&price=${price}&bedroom=${bedroom}&bathroom=${bathroom}`);
+    const response = await API.get("/houses");
+      // const response = await API.get(`/house?typeRent=${typeRent}&amenities=${amenities}&price=${price}&bedroom=${bedroom}&bathroom=${bathroom}`);
     return response.data.data;
   });
 
   // const  {isLoadingFilter, errors } = useQuery("houses", async () => {
 
     const getHouses = async () => {
+    if (isLoading) return <p>...loading</p>;
+
     const response = await API.get("/houses");
 
-      // const response = await API.get(`/house?typeRent=${typeRent}&amenities=${amenities}&price=${price}&bedroom=${bedroom}&bathroom=${bathroom}`);
       // const response = await API.get(`/house?typeRent=${typeRent}&amenities=${amenities}&price=${price}&bedroom=${bedroom}&bathroom=${bathroom}`);
       console.log(response);
       setData(response.data.data);
@@ -59,9 +57,6 @@ const Home = () => {
 
     const getTransactions = async () => {
       const response = await API.get("/transactions");
-  
-        // const response = await API.get(`/house?typeRent=${typeRent}&amenities=${amenities}&price=${price}&bedroom=${bedroom}&bathroom=${bathroom}`);
-        // const response = await API.get(`/house?typeRent=${typeRent}&amenities=${amenities}&price=${price}&bedroom=${bedroom}&bathroom=${bathroom}`);
         console.log(response);
         setDataTransaction(response.data.data.transactions);
         setLoadingTransaction(false);
@@ -74,10 +69,8 @@ const Home = () => {
         };
       }, []);
     console.log(dataApi)
-
     const [page, setPage] = useState(false)
-  
-console.log(dataTransaction)
+    console.log(dataTransaction)
 
     return (
       
@@ -87,11 +80,10 @@ console.log(dataTransaction)
       <Row>
       {state.isLogin==true && state.user.listasid==1 &&(
 <>
-<p>admin</p>
 <TransactionList data={dataTransaction} isLoading={isLoading} error={error} />
 {/* <TransactionList data={data} isLoading={isLoading} error={error} /> */}
 
-        {/* <Owner /> */}
+      {/* <Owner /> */}
 </>
 
       )}
@@ -100,7 +92,7 @@ console.log(dataTransaction)
         <Col xs={4}>
           <Sidebar />
           <Row>
-             <Button  onClick={getProduct => setPage(true)} className="justic=fy" variant="primary" type="submit">
+             <Button  onClick={getHouses => setPage(true)} className="justic=fy" variant="primary" type="submit">
                 Apply
             </Button>
         </Row>

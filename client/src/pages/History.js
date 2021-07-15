@@ -10,7 +10,7 @@ import { ListGroup,Card,Jumbotron,Row,Col,Button,Container,Form } from "react-bo
 import { UserContext } from "../contexts/userContext";
 import { useQuery } from "react-query";
 
-const MyBookingPending = () => {
+const History = () => {
 
   const router = useHistory();
   const Nowss =new Date().toLocaleTimeString("en-US", { month: "long",day: "2-digit" })
@@ -20,40 +20,35 @@ const MyBookingPending = () => {
   // const [data, setData] = useState(null);
   const [dataLength, setDataLength] = useState(null);
   const [loading, setLoading] = useState(true);
-  const contextValue = useContext(UserContext);
-console.log(contextValue[0])
-
-  const userId=contextValue[0].user.id;
-  const dataUser=contextValue[0];
-console.log(userId)
+ 
   
   const { isLoading, data, error } = useQuery("products", async () => {
   // /  const response = await API.get("/products");
-  const response = await API.get(`/transaction?user_id=${userId}`);
-
+  const response = await API.get(`/transactions`);
     // const response = await API.get(`/transaction?user_id=${userId}`);
     return response.data.data;
   });
   if (isLoading) return <p>...loading</p>;
-console.log(data)
-console.log(data)
-const isStatus=data.filter(item => ( item.status === "Pending" )).sort((a, b) => (b.id - a.id))
-console.log(isStatus)
-const item=isStatus[0]
-console.log(item)
-// console.log(item.id)
-// console.log(data[0])
-// console.log(data.length)
-// var lastdata=data.length-1
 // console.log(data)
-// console.log(data[lastdata])
-// const item=data
-// console.log(item.attachment)
+console.log(data.transactions)
+const dataTransaction=data.transactions
+const isStatus=dataTransaction.filter(item => ( item.status === "Approve" )).sort((a, b) => (b.id - a.id))
+// console.log(isStatus)
+const items=isStatus
+console.log(items)
 
 
   return(
     <div>
       <>
+      {items.length <= 0 && (
+        <p>data kosong</p>
+        // <img src={not_found} width="100%" height="100%" alt="not found" />
+      )}
+      {items.length > 0 &&
+        items.map((item, index) => (
+          // <Col key={index}>
+           
 <Row className="justify-content-md-center" style={{paddingTop:"73px"}}>
 <Col xs lg="2">
   
@@ -141,11 +136,11 @@ console.log(item)
   <Col sm={4}>
   <Row>
   <Col sm={4}>1 </Col>
-  <Col sm={4}>{dataUser.user.fullname} </Col>
-  <Col sm={4}>{dataUser.user.gender} </Col>
+  <Col sm={4}>{item.user.fullname} </Col>
+  <Col sm={4}>{item.user.gender} </Col>
 </Row>
  </Col>
- <Col sm={4}>{dataUser.user.email} </Col>
+ <Col sm={4}>{item.user.phone} </Col>
   <Col sm={2}>
   <p>Long Time Rent :</p>
   </Col>
@@ -190,9 +185,12 @@ console.log(item)
   
 </Col>
 </Row>
+
+))}
+
 </>
    
   </div>
   )
 }
-export default MyBookingPending;
+export default History;

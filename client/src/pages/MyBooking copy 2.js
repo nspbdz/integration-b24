@@ -15,7 +15,7 @@ const MyBooking = () => {
   const [dataUpdate, setDataUpdate] = useState([])
   const [formData, setFormData] = useState({
       
-    status:"pending",
+    status:"",
     total: "",
     imageFile:""
   });
@@ -127,7 +127,7 @@ const handleSubmit = async (e) => {
   
   try {
     const formData = new FormData();
-    formData.set("status", "PENDING");
+    formData.set("status", "Pending");
     formData.set("total", totals);
     // formData.set("description", data.description);
     formData.append("imageFile", dataUpdate.imageFile, dataUpdate.imageFile.name);

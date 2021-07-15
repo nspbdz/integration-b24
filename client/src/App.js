@@ -11,6 +11,9 @@ import About from "./pages/About";
 import MyBooking from "./pages/MyBooking";
 import Profile from "./pages/Profile";
 import MyBookingPending from "./pages/MyBookingPending";
+import MyBookingHistory from "./pages/MyBookingHistory";
+import History from "./pages/History";
+import AddProperty from "./pages/AddProperty";
 
 // MyBooking
 // import DetailProduct from "./pages/DetailProduct";
@@ -44,7 +47,10 @@ const App = () => {
                 {/* <Route exact path="/MyBooking" component={MyBooking} /> */}
                 <PrivateRoute exact path="/MyBooking" component={MyBooking} />
                 <Route exact path="/MyBookingPending" component={MyBookingPending} />
-               
+                <Route exact path="/MyBookingHistory" component={MyBookingHistory} />
+                <Route exact path="/History" component={History} />
+                <Route exact path="/AddProperty" component={AddProperty} />
+                
                 {/* <PrivateRoute exact path="/house/:id" component={DetailHouse} /> */}
                 {/* <PrivateRoute exact path="/product/:id" component={DetailProduct} /> */}
               </Switch>

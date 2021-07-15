@@ -10,7 +10,7 @@ import { ListGroup,Card,Jumbotron,Row,Col,Button,Container,Form } from "react-bo
 import { UserContext } from "../contexts/userContext";
 import { useQuery } from "react-query";
 
-const MyBookingPending = () => {
+const MyBookingHistory = () => {
 
   const router = useHistory();
   const Nowss =new Date().toLocaleTimeString("en-US", { month: "long",day: "2-digit" })
@@ -37,7 +37,7 @@ console.log(userId)
   if (isLoading) return <p>...loading</p>;
 console.log(data)
 console.log(data)
-const isStatus=data.filter(item => ( item.status === "Pending" )).sort((a, b) => (b.id - a.id))
+const isStatus=data.filter(item => ( item.status === "Approve" )).sort((a, b) => (b.id - a.id))
 console.log(isStatus)
 const item=isStatus[0]
 console.log(item)
@@ -195,4 +195,4 @@ console.log(item)
   </div>
   )
 }
-export default MyBookingPending;
+export default MyBookingHistory;

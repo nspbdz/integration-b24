@@ -8,7 +8,7 @@ const CardList = ({ data, isLoading, error,isLoadingFilter, errors }) => {
   if (isLoading) return <p>...loading</p>;
   if (error) return <h1>Error occured: {error.response.data.message}</h1>;
   if (errors) return <h1>Error occured: {errors.response.data.message}</h1>;
-  console.log(data.length)
+  // console.log(data.length)
   return (
     <Row>
       {data.length <= 0 && (

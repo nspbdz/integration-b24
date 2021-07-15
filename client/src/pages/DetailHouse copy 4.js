@@ -9,7 +9,7 @@ function AddProduct(props) {
     checkout: "",
     user_id:1,
     houseId:19,
-    status:"pending"
+    status:""
     // checkin: "",
   });
   const handleChange = (event) => {
@@ -37,7 +37,7 @@ function AddProduct(props) {
         checkout: formData.checkout,
         user_id: 1,
         houseId: 1,
-        status: "pending",
+        status: "",
 
         user_id: formData.user_id,
         houseId: formData.houseId,

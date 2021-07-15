@@ -20,7 +20,7 @@ const MyBooking = () => {
   const [dataUpdate, setDataUpdate] = useState([])
   const [formData, setFormData] = useState({
       
-    status:"pending",
+    status:"",
     total: "",
     imageFile:""
   });
@@ -51,7 +51,7 @@ console.log(userId)
   });
   if (isLoading) return <p>...loading</p>;
 
-  const isStatus=data.filter(item => ( item.status === "waiting")).sort((a, b) => (b.id - a.id))
+  const isStatus=data.filter(item => ( item.status === "Waiting")).sort((a, b) => (b.id - a.id))
 
 console.log(data)
 console.log(isStatus)

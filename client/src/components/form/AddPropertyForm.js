@@ -4,7 +4,7 @@ import { Modal } from "react-bootstrap";
 import { useHistory,Router,Link } from "react-router-dom";
 import { UserContext } from "../../contexts/userContext";
 
-function AddOrder(props) {
+function AddPropertyForm(props) {
   
   const { handleClose,handleOrder, show } = props;
   const router = useHistory();
@@ -143,8 +143,7 @@ console.log(token);
   }
 
   return (
-    <Modal show={show} onHide={handleClose}>
-      <Modal.Body>
+  
     <form onSubmit={handleSubmit}>
 
     <br></br>
@@ -157,9 +156,8 @@ console.log(token);
     
     <button type="submit">click</button>
   </form>
-  </Modal.Body>
-    </Modal>
+ 
   );
 }
 
-export default AddOrder;
+export default AddPropertyForm;

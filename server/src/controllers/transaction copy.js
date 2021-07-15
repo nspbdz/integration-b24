@@ -137,13 +137,12 @@ exports.createTransaction = async (req, res) => {
       
           try {
               let data = req.body
-              // const status=req.body.status
-              // ...req.body,
-              
-              console.log(data)
+              // const attachment = req.files.imageFile[0].filename 
+      
               data = {
-                ...data,
-            }
+                  ...data,
+                  status
+              }
               await transaction.update(data, {
                   where: {
                     id:id
@@ -159,12 +158,12 @@ exports.createTransaction = async (req, res) => {
                 });
             
             
-            
+            }
          
                 res.send({
                   status: "success",
                   message: "resource has successfully Updated",
-                  data: transactions,
+                  data: transaction,
                 });
               } catch (error) {
                   console.log(error)
@@ -263,7 +262,7 @@ exports.getAllTransaction = async (req, res) => {
                 },
                   }],
                   attributes: {
-                      exclude: [ "username","address","email","password","image", "createdAt", "updatedAt"],
+                      exclude: [ "username","address","email","password","image","gender", "createdAt", "updatedAt"],
                     },
               },
                 {
@@ -297,14 +296,14 @@ exports.getAllTransaction = async (req, res) => {
                   },
               });
           
-        const parseJSON = JSON.parse(JSON.stringify(transactions))
+        // const parseJSON = JSON.parse(JSON.stringify(transactions))
 
-        transactions = parseJSON.map(transaction => {
-            return {
-                ...transaction,
-                attachment: transaction.attachment ? path + transaction.attachment : null
-            }
-        })
+        // transactions = parseJSON.map(transaction => {
+        //     return {
+        //         ...transaction,
+        //         attachment: transaction.attachment ? path + transaction.attachment : null
+        //     }
+        // })
 
         res.send({
             status: 'success',

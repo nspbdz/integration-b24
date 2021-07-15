@@ -2,13 +2,13 @@ import { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import { UserContext } from "../contexts/userContext";
-import {
-  Button,  FormControl,  InputGroup,  Form,  Navbar,  Nav,} from "react-bootstrap";
+import {Row,Col, Button,  FormControl,  InputGroup,  Form,  Navbar,  Nav,} from "react-bootstrap";
 
 import ModalSignin from "./ModalSignin"; 
 import ModalSignup from "./ModalSignup"; 
 import brand from "../assets/images/brand.svg";
 import Dropd from "./Dropd";
+import DropAdmin from "./DropAdmin";
 
 import "../styles/customStyle.css";
 import { setAuthToken } from "../config/api";
@@ -40,7 +40,7 @@ console.log(state);
     });
     setAuthToken();
   };
-console.log(state.user.listasid)
+// console.log(state.user.listasid)
   return (
     <Navbar expand="lg">
       <Link to="/" className="navbar-brand">
@@ -75,18 +75,17 @@ console.log(state.user.listasid)
         {state.isLogin==true && state.user.listasid==1 &&(
 
           <>
-          <p>admin</p>
 
-            {/* <p className="nav-link">{state.user.fullname}</p>  */}
-            <Dropd />
+           <Row>
+             <Col sm="2" style={{paddingRight:"100px"}}>
+            <DropAdmin />
+             </Col>
+             <Col sm="5"></Col>
+             <Col sm="5"></Col>
+
+           </Row>
             
-            <Button
-              className="mr-3 my-2"
-              variant="danger"
-              onClick={handleSignout}
-            >
-              Sign out
-            </Button>
+          
           </>
         )}
          {state.isLogin==true && state.user.listasid==2 &&(
