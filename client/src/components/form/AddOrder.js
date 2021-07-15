@@ -16,16 +16,22 @@ function AddOrder(props) {
   const splitval=pa.split("/house/")
   const urlVal=splitval[1]
   console.log(urlVal)
+  // var Gethouse_id =localStorage.getItem("house_id")
+// console.log(a)
+var GetPrice =localStorage.getItem("price")
+console.log(GetPrice)
   
+
   const [data, setData] = useState([])
   const [formData, setFormData] = useState({
       // name: "",
-    checkin:2000-10-10,
+    checkin:"",
     checkout: "",
     user_id:'',
     houseId:'',
-    // status:"pending"
-    // checkin: "",
+    total:'',
+    totaltime:''
+   
   });
   const handleChange = (event) => {
     const a=event.target.value
@@ -39,12 +45,69 @@ function AddOrder(props) {
   }
   const aa=String(formData.checkin)
   console.log(formData.checkin)
+  console.log(formData.checkout)
+  var d1 = new Date(formData.checkin);
+  var d2 = new Date(formData.checkout);
+  const checkinYear=d1.getUTCFullYear()
+  const checkinMonth=d1.getUTCMonth()
+  const checkinDay=d1.getUTCDate()
+  const checkoutYear=d2.getUTCFullYear()
+  const checkoutMonth=d2.getUTCMonth()
+  const checkoutDay=d2.getUTCDate()
+  
+  console.log(checkinYear);
+console.log(checkinMonth);
+console.log(checkinDay);
 
-  const saveGames = () => {
+console.log(checkoutYear);
+console.log(checkoutMonth);
+console.log(checkoutDay);
+
+const compareYear=checkoutYear-checkinYear
+const compareMonth=checkoutMonth-checkinMonth
+const compareDay=checkoutDay-checkinDay
+var AllCompared=0;
+
+if(compareDay ==0){
+  var AllCompared=AllCompared
+}
+else if(compareDay >0){
+  console.log("day")
+  console.log(compareDay)
+  // var AllCompared=compMonth+compareDay
+  var AllCompared=compareDay
+  
+  if(compareMonth >0){
+    var compMonth=compareMonth*30
+    console.log(compMonth)
+    var AllCompared=compMonth+compareDay
+
+  }
+  if(compareYear >0){
+    var compYear=compareYear*365
+    var AllCompared=compYear+compareDay
+    console.log(AllCompared)
+  }
+}
+const totalHari=compareYear+"Year  " +compareMonth +" Month " +compareDay +" Day"
+// const totals=item.house.price*AllCompared
+// const harga=formData.house.price
+// const totals=harga*AllCompared
+// console.log(totals)
+console.log(AllCompared)
+
+// console.log(harga)
+// console.log(totals)
+var token= localStorage.getItem("token")
+console.log(token);
+
+  const MakeTransaction = () => {
     fetch('http://localhost:5000/api/v1/transaction', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+          'Authorization':`Bearer ${token}`
+
       },
       body: JSON.stringify({
         // name: formData.name,
@@ -52,7 +115,9 @@ function AddOrder(props) {
         checkout: formData.checkout,
         user_id: userId,
         houseId: urlVal,
-        status: "pending",
+        status: "Waiting",
+        total:GetPrice*AllCompared,
+        totaltime:totalHari,
      
       }),
     })
@@ -68,15 +133,13 @@ function AddOrder(props) {
        console.log(res.status)
      }) 
       .then((result) => setData(result.rows))
-      // .then({
-      //   props.onAddOrder(formData);
-      // })
+      
       .catch((err) => console.log('error'))
   }
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    saveGames() // Save games when form is submitted
+    MakeTransaction() 
   }
 
   return (

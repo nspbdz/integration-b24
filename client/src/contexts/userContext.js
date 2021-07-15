@@ -13,7 +13,7 @@ const reducer = (state, action) =>{
   // const { type, payload } = action
   switch (action.type) {
     case "LOGIN":
-    case "AUTH_SUCCESS":
+    // case "AUTH_SUCCESS":
       localStorage.setItem("token", action.payload.token);
       return {
         ...state,
@@ -21,7 +21,7 @@ const reducer = (state, action) =>{
         user: action.payload,
       };
     case "LOGOUT":
-    case "AUTH_ERROR":
+    // case "AUTH_ERROR":
       localStorage.removeItem("token");
       return {
         ...state,

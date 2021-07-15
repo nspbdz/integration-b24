@@ -1,6 +1,7 @@
 import {React} from "react"
 import { BrowserRouter as Router, Route, Switch,Link } from "react-router-dom";
 import { BsCalendar } from 'react-icons/bs';
+import { setAuthToken } from "../config/api";
 
 import {Dropdown} from "react-bootstrap"
 import { useContext,useState } from "react"
@@ -14,21 +15,13 @@ import ModalChangePassword from '../components/ModalChangePassword'
 import Profile from "../pages/Profile";
 
 function Dropd(){
-//   const {state} = useContext(UserContext);
-//   const [state, dispatch] = useContext(UserContext);
-//   const handleLogout(){
-//     const [data, setData] = useState({
-//         username: "", 
-//         password: "",
-//       });
-//   }
-const [state, dispatch] = useContext(UserContext);
-console.log(state.isLogin)
-const logouts = () => {
-    dispatch(false)
-    // dispatch({isLogin: false,  });
-};
-
+  const [state, dispatch] = useContext(UserContext);
+const handleSignout = (e) => {
+    dispatch({
+      type: "LOGOUT",
+    });
+    setAuthToken();
+  };
   const contextValue = useContext(UserContext);
   console.log(contextValue[0].user.name)
   const userlogin=contextValue[0].user.username
@@ -78,10 +71,13 @@ const logouts = () => {
         <Dropdown.Item >
     <Link to="/MyBookingHistory" className="btn btn-light">MyBookingHistory</Link>
         </Dropdown.Item>
+        <Dropdown.Item >
+    <Link to="/MyBookingPending" className="btn btn-light">MyBookingPending</Link>
+        </Dropdown.Item>
         
     <Dropdown.Divider />
     <Dropdown.Item >
-    <Link to="/" onClick={logouts} className="btn btn-light">Logout</Link>
+    <Link to="/" onClick={handleSignout} className="btn btn-light">Logout</Link>
         </Dropdown.Item>
   </Dropdown.Menu>
 </Dropdown>

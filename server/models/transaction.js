@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
   };
   transaction.init({
     // id: DataTypes.INTEGER,
-    name: DataTypes.STRING,
+    totaltime: DataTypes.STRING,
     checkin: DataTypes.DATE,
     checkout: DataTypes.DATE,
     total: DataTypes.INTEGER,

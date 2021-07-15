@@ -8,8 +8,10 @@ import { API } from "../config/api";
 
 const HouseId = ({ match }) => {
   const params = useParams();
-  const [data, setData] = useState(null);
+  localStorage.setItem("house_id", params.id)
+  // var a =localStorage.getItem("house_id")
   const [loading, setLoading] = useState(true);
+  const [data, setData] = useState(null);
   const getProduct = async () => {
     const response = await API.get(`/house/${params.id}`);
     console.log(response);
@@ -23,7 +25,12 @@ const HouseId = ({ match }) => {
     };
   }, []);
 console.log(data)
+
   if (loading) return <p>loading...</p>;
+  localStorage.setItem("price", data.price)
+  var a =localStorage.getItem("price")
+  console.log(data.price)
+  console.log(a)
   return (
     
 <>
@@ -123,25 +130,6 @@ console.log(data)
     
 </>
 
-    // <Row>
-    //   <Col xs={6}>
-    //     <img src={data.image} alt="product" className="img-fluid" />
-    //   </Col>
-    //   <Col>
-    //     <Row>
-    //       <p>{data.name}</p>
-    //     </Row>
-    //     <Row>
-    //       <p>price: </p>
-    //       <p>{data.price}</p>
-    //     </Row>
-    //     <Row>
-    //       <p>description: </p>
-    //       <br />
-    //       <p>{data.description}</p>
-    //     </Row>
-    //   </Col>
-    // </Row>
   );
 };
 

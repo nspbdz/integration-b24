@@ -1,16 +1,37 @@
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation,Router,useHistory } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 import data from "../data/fakeData";
 import NotFound from "./NotFound";
 import CardList from "../components/CardList";
 import { FaBath,FaBed } from 'react-icons/fa';
 import brand from "../assets/images/brand.svg";
-import { API } from "../config/api";
-import { ListGroup,Card,Jumbotron,Row,Col,Button,Container } from "react-bootstrap";
+import { ListGroup,Card,Jumbotron,Row,Col,Button,Container,Form } from "react-bootstrap";
 import { UserContext } from "../contexts/userContext";
+import { API } from "../config/api";
 import { useQuery } from "react-query";
 
-const DetailProperty = () => {
+const MyBooking = () => {
+  var Gethouse_id =localStorage.getItem("house_id")
+
+  const Nowss =new Date().toLocaleTimeString("en-US", { month: "long",day: "2-digit" })
+
+  const router = useHistory();
+
+  const [dataUpdate, setDataUpdate] = useState([])
+  const [formData, setFormData] = useState({
+      
+    status:"",
+    total: "",
+    imageFile:""
+  });
+  const handleChange = (e) => {
+    setDataUpdate({
+      ...dataUpdate,
+      [e.target.name]:
+        e.target.type === "file" ? e.target.files[0] : e.target.value,
+    });
+  };
+console.log()
   // const [data, setData] = useState(null);
   const [dataLength, setDataLength] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -20,7 +41,6 @@ console.log(contextValue[0])
   const userId=contextValue[0].user.id;
   const dataUser=contextValue[0];
 console.log(userId)
-var lengt;
   
 
   const { isLoading, data, error } = useQuery("products", async () => {
@@ -31,41 +51,117 @@ var lengt;
   });
   if (isLoading) return <p>...loading</p>;
 
+  const isStatus=data.filter(item => ( item.status === "Waiting")).sort((a, b) => (b.id - a.id))
 
-  const datale=dataLength
-  console.log(datale)
-
-console.log(data[0])
-console.log(data.length)
-var lastdata=data.length-1
 console.log(data)
-console.log(data[lastdata])
-const item=data[lastdata]
+console.log(isStatus)
 // console.log(data.length)
-// var i=0;
-// for(i=0; i<dataLength; i++ ){
-//   console.log(i)
-// }
+const item=isStatus[0]
+console.log(item)
+console.log(item.id)
+localStorage.setItem("transaction_id", item.id)
 
-console.log(data)
-// const a=data.map(item => {
-// console.log(item)
-// })
 
-// console.log(data.transactions)
   // if (loading) return <p>loading...</p>;
+console.log(item.checkin)
+var d1 = new Date(item.checkin);
+var d2 = new Date(item.checkout);
+const checkinYear=d1.getUTCFullYear()
+const checkinMonth=d1.getUTCMonth()
+const checkinDay=d1.getUTCDate()
+const checkoutYear=d2.getUTCFullYear()
+const checkoutMonth=d2.getUTCMonth()
+const checkoutDay=d2.getUTCDate()
+console.log(d2)
 
+// console.log(checkinYear);
+// console.log(checkinMonth);
+// console.log(checkinDay);
 
+// console.log(checkoutYear);
+// console.log(checkoutMonth);
+// console.log(checkoutDay);
 
-// const Nowss =new Date().toLocaleTimeString("en-US", { month: "long",day: "2-digit" })
-// console.log(Nowss)
-//   window.location.href
+const compareYear=checkoutYear-checkinYear
+const compareMonth=checkoutMonth-checkinMonth
+const compareDay=checkoutDay-checkinDay
+var AllCompared=0;
 
+if(compareDay ==0){
+  var AllCompared=AllCompared
+}
+else if(compareDay >0){
+  // console.log(compareDay)
+  // var AllCompared=compMonth+compareDay
+  var AllCompared=compareDay
+  
+  if(compareMonth >0){
+    var compMonth=compareMonth*30
+    // console.log(compMonth)
+    var AllCompared=compMonth+compareDay
+
+  }
+  if(compareYear >0){
+    var compYear=compareYear*365
+    var AllCompared=compYear+compareDay
+    // console.log(AllCompared)
+  }
+}
+const totalHari=compareYear+"Year  " +compareMonth +" Month " +compareDay +" Day"
+// const totals=item.house.price*AllCompared
+const harga=item.house.price
+const totals=harga*AllCompared
+
+console.log(AllCompared);
+var rent=''
+console.log(dataUpdate)
+// console.log(dataUpdate.imageFile.name)
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  console.log(data);
+  console.log("clicked")
+  
+  try {
+    const formData = new FormData();
+    formData.set("status", "PENDING");
+    formData.append("imageFile", dataUpdate.imageFile, dataUpdate.imageFile.name);
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
+    // let res = await fetch(`http://localhost:5000/api/v1/updatetransaction/${Gethouse_id}`, {
+      let res = await fetch(`http://localhost:5000/api/v1/updatetransaction/${item.id}`, {
+        method: 'PATCH',
+        body: formData,
+      }
+
+    );
+    console.log(res)
+
+    const stat=res.status
+       if(stat=="200"){
+        console.log("success")
+        alert("kamu berhasil")
+        router.push(`/mybookingpending`);
+       }
+    // console.log(res)
+
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const handleClicks = (event) => {
+  console.log("clicked")
+  event.preventDefault()
+  
+  // MakeTransaction() 
+}
 
   return(
     <div>
-    {/* {data.filter(item => item.id ==urlVal).map(dataMatch => ( */}
-      
       <>
 <Row className="justify-content-md-center" style={{paddingTop:"73px"}}>
 <Col xs lg="2">
@@ -81,22 +177,26 @@ console.log(data)
   <img src={brand} alt="brand" />
 
   </Col>
-  <Col sm={3}>
+  <Col sm={5}>
     
   </Col>
-  <Col sm={5}>
+  
+  <Col sm={3}>
     <h4>Booking</h4>
-    {/* <p>{Nowss} </p> */}
+    <p>{Nowss} </p>
   </Col>
   </Row>
 
-  </ListGroup.Item>
-  <ListGroup.Item>
+  {/* </ListGroup.Item> */}
+  {/* <ListGroup.Item> */}
+  
+
+  
   <Row>
   <Col sm>
   <h4>{item.house.name}</h4>
 <p>{item.house.address}</p>
-<Button variant="secondary">Waiting Payment</Button>
+<Button  variant="secondary">Waiting Payment</Button>
   </Col>
   <Col sm>
   <Row>
@@ -120,8 +220,21 @@ console.log(data)
     <p>{item.house.typeRent} </p>
     </Col>
   <Col sm>
-    <img style={{width:"138px"}} src="https://i1.wp.com/investasisyariah.info/wp-content/uploads/2018/02/Struk-Pembelian.jpg?resize=450%2C450&ssl=1" />
+    
+    <img style={{width:"138px"}} src="" />
   <p>Upload Payment Proof</p>
+  <Form >
+    
+        <Form.Group>
+          <Form.Control
+            name="imageFile"
+            type="file"
+            onChange={handleChange}
+            required
+          />
+        </Form.Group>
+      </Form>
+        
   </Col>
 </Row>
   
@@ -146,14 +259,7 @@ console.log(data)
   </ListGroup>
   </ListGroup.Item>
   <ListGroup.Item>
-  {/* <Row>
-  <Col sm={4}> */}
-
-      {/* {userData.filter(item => item.username ==userval).map((items,index) => {
-  console.log(userData)
-  return(
-    <> */}
-
+  
   <Row>
   <Col sm={4}>
   <Row>
@@ -167,20 +273,19 @@ console.log(data)
   <p>Long Time Rent :</p>
   </Col>
   <Col sm={2}>
-  <p>1 Year </p>
+  <p>{compareYear +"Year "}
+    {compareMonth +" Month "}
+    {compareDay +" Day"} </p>
+
   </Col>
 </Row>
-{/* </> */}
-
-{/* )
-})} */}
 
   <ListGroup.Item>
     <Row>
   <Col sm={4}> </Col>
   <Col sm={4}> </Col>
   <Col sm={2}>Total : </Col>
-  <Col sm={2}>Rp. {item.house.price} </Col>
+  <Col sm={2}>Rp. {item.house.price*AllCompared} </Col>
 </Row>
 
   </ListGroup.Item>
@@ -190,15 +295,12 @@ console.log(data)
   <Col sm={4}> </Col>
   <Col sm={4}>
 
-  {/* <Link to={{
-
-    pathname: `/MyBookingPending/${userval}/${bookval}/${bookval}`
-  }} > */}
-  <Button variant="primary" style={{width:"150px"}}>
+  
+  <Button onClick={handleSubmit} variant="primary" style={{width:"150px"}}>
 
     Pay
   </Button>
-  {/* </Link> */}
+
      </Col>
 </Row>
 
@@ -217,11 +319,7 @@ console.log(data)
 </Row>
 </>
    
-
-        
-      
-    {/* ))} */}
   </div>
   )
 }
-export default DetailProperty;
+export default MyBooking;
